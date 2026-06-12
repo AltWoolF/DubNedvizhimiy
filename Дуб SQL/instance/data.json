@@ -1,0 +1,594 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "login": "admin",
+      "password_hash": "pbkdf2:sha256:admin123",
+      "full_name": "Администратор Системы",
+      "email": "admin@dubovyumet.ru",
+      "phone": "+7 (846) 123-45-67",
+      "role": "admin",
+      "is_active": true,
+      "created_at": "2026-01-01T00:00:00"
+    },
+    {
+      "id": 2,
+      "login": "employee",
+      "password_hash": "pbkdf2:sha256:employee123",
+      "full_name": "Иванова Мария Петровна",
+      "email": "ivanova@dubovyumet.ru",
+      "phone": "+7 (846) 123-45-68",
+      "role": "employee",
+      "is_active": true,
+      "created_at": "2026-01-15T00:00:00"
+    },
+    {
+      "id": 3,
+      "login": "user1",
+      "password_hash": "pbkdf2:sha256:user123",
+      "full_name": "Петров Александр Сергеевич",
+      "email": "petrov@mail.ru",
+      "phone": "+7 (927) 555-12-34",
+      "role": "user",
+      "is_active": true,
+      "created_at": "2026-02-01T00:00:00"
+    },
+    {
+      "id": 4,
+      "login": "user2",
+      "password_hash": "pbkdf2:sha256:user123",
+      "full_name": "ООО \"СтройИнвест\"",
+      "email": "info@stroyinvest.ru",
+      "phone": "+7 (846) 999-88-77",
+      "role": "user",
+      "is_active": true,
+      "created_at": "2026-03-15T00:00:00"
+    }
+  ],
+  "properties": [
+    {
+      "id": 1,
+      "title": "Земельный участок под ИЖС",
+      "type": "land",
+      "address": "с. Дубовый Умёт, ул. Молодёжная, участок 15",
+      "cadastral_number": "63:32:1234567:100",
+      "area": 1500,
+      "description": "Ровный земельный участок под индивидуальное жилищное строительство. Расположен в тихом районе с развитой инфраструктурой. Рядом школа, детский сад, магазины.",
+      "communications": "Газ, электричество, центральное водоснабжение",
+      "condition": null,
+      "rent_price": 5000,
+      "sale_price": 850000,
+      "status": "available",
+      "operation_type": "both",
+      "responsible_user_id": 2,
+      "coordinates": {
+        "lat": 53.1234,
+        "lng": 50.5678
+      },
+      "created_at": "2026-01-20T10:00:00",
+      "updated_at": "2026-06-15T14:30:00"
+    },
+    {
+      "id": 2,
+      "title": "Нежилое помещение на первом этаже",
+      "type": "premises",
+      "address": "с. Дубовый Умёт, ул. Советская, д. 45",
+      "cadastral_number": "63:32:1234567:201",
+      "area": 85.5,
+      "description": "Нежилое помещение с отдельным входом, витринными окнами. Идеально подходит для магазина, офиса или сферы услуг. Высота потолков 3.2 м.",
+      "communications": "Центральное отопление, водоснабжение, канализация, электричество 380В",
+      "condition": "good",
+      "rent_price": 25000,
+      "sale_price": 2500000,
+      "status": "available",
+      "operation_type": "both",
+      "responsible_user_id": 2,
+      "coordinates": {
+        "lat": 53.1256,
+        "lng": 50.5701
+      },
+      "created_at": "2026-02-10T09:00:00",
+      "updated_at": "2026-06-20T11:15:00"
+    },
+    {
+      "id": 3,
+      "title": "Здание бывшего клуба",
+      "type": "building",
+      "address": "с. Дубовый Умёт, ул. Центральная, д. 12",
+      "cadastral_number": "63:32:1234567:305",
+      "area": 450,
+      "description": "Двухэтажное кирпичное здание бывшего сельского клуба. Требует капитального ремонта. Большой зал на первом этаже, административные помещения на втором.",
+      "communications": "Газовое отопление, электричество, водоснабжение",
+      "condition": "poor",
+      "rent_price": null,
+      "sale_price": 3500000,
+      "status": "available",
+      "operation_type": "sale",
+      "responsible_user_id": 1,
+      "coordinates": {
+        "lat": 53.1278,
+        "lng": 50.5689
+      },
+      "created_at": "2026-03-01T08:30:00",
+      "updated_at": "2026-05-10T16:45:00"
+    },
+    {
+      "id": 4,
+      "title": "Складское помещение",
+      "type": "premises",
+      "address": "с. Дубовый Умёт, ул. Промышленная, д. 8",
+      "cadastral_number": "63:32:1234567:408",
+      "area": 200,
+      "description": "Тёплый склад с удобным подъездом для грузового транспорта. Рампа для разгрузки. Охраняемая территория.",
+      "communications": "Отопление, электричество 380В, грузовой лифт",
+      "condition": "satisfactory",
+      "rent_price": 35000,
+      "sale_price": null,
+      "status": "rented",
+      "operation_type": "rent",
+      "responsible_user_id": 2,
+      "coordinates": {
+        "lat": 53.1201,
+        "lng": 50.5745
+      },
+      "created_at": "2026-01-05T11:20:00",
+      "updated_at": "2026-04-01T10:00:00"
+    },
+    {
+      "id": 5,
+      "title": "Земельный участок сельхозназначения",
+      "type": "land",
+      "address": "с. Дубовый Умёт, поле №3, участок 1",
+      "cadastral_number": "63:32:1234567:512",
+      "area": 50000,
+      "description": "Земельный участок сельскохозяйственного назначения. Чернозём, ровный рельеф. Подходит для растениеводства.",
+      "communications": null,
+      "condition": null,
+      "rent_price": 150000,
+      "sale_price": 5000000,
+      "status": "sold",
+      "operation_type": "both",
+      "responsible_user_id": 1,
+      "owner_name": "КФХ \"Заря\"",
+      "ownership_date": "2026-05-15",
+      "ownership_basis": "Договор купли-продажи №45 от 15.05.2026",
+      "coordinates": {
+        "lat": 53.1345,
+        "lng": 50.5512
+      },
+      "created_at": "2023-06-10T09:00:00",
+      "updated_at": "2026-05-15T15:30:00"
+    },
+    {
+      "id": 6,
+      "title": "Жилой дом с участком",
+      "type": "building",
+      "address": "с. Дубовый Умёт, ул. Садовая, д. 28",
+      "cadastral_number": "63:32:1234567:628",
+      "area": 120,
+      "description": "Одноэтажный кирпичный дом с земельным участком 12 соток. Три комнаты, кухня, санузел. Баня, хозпостройки.",
+      "communications": "Газ, вода, электричество, канализация",
+      "condition": "good",
+      "rent_price": null,
+      "sale_price": 2800000,
+      "status": "private_ownership",
+      "operation_type": "sale",
+      "responsible_user_id": null,
+      "owner_name": "Сидоров Иван Петрович",
+      "ownership_date": "2020-03-20",
+      "ownership_basis": "Договор купли-продажи №12 от 20.03.2020",
+      "coordinates": {
+        "lat": 53.1289,
+        "lng": 50.5634
+      },
+      "created_at": "2020-03-20T10:00:00",
+      "updated_at": "2020-03-20T10:00:00"
+    },
+    {
+      "id": 7,
+      "title": "Земельный участок под коммерческую застройку",
+      "type": "land",
+      "address": "с. Дубовый Умёт, ул. Центральная, участок 3",
+      "cadastral_number": "63:32:1234567:715",
+      "area": 2500,
+      "description": "Участок в центре села. Выгодное расположение на главной улице. Подходит для строительства торгового павильона, кафе.",
+      "communications": "Возможность подключения всех коммуникаций",
+      "condition": null,
+      "rent_price": 15000,
+      "sale_price": 1800000,
+      "status": "reserved",
+      "operation_type": "both",
+      "responsible_user_id": 2,
+      "coordinates": {
+        "lat": 53.1267,
+        "lng": 50.5698
+      },
+      "created_at": "2026-04-01T08:00:00",
+      "updated_at": "2026-06-25T09:30:00"
+    },
+    {
+      "id": 8,
+      "title": "Офисное помещение в административном здании",
+      "type": "premises",
+      "address": "с. Дубовый Умёт, ул. Советская, д. 120, каб. 5",
+      "cadastral_number": "63:32:1234567:820",
+      "area": 35,
+      "description": "Кабинет на втором этаже административного здания. Удобная планировка, большие окна, современный ремонт.",
+      "communications": "Центральное отопление, интернет, кондиционер",
+      "condition": "excellent",
+      "rent_price": 12000,
+      "sale_price": null,
+      "status": "available",
+      "operation_type": "rent",
+      "responsible_user_id": 2,
+      "coordinates": {
+        "lat": 53.1245,
+        "lng": 50.5712
+      },
+      "created_at": "2026-05-15T14:00:00",
+      "updated_at": "2026-05-15T14:00:00"
+    }
+  ],
+  "propertyImages": [
+    {
+      "id": 1,
+      "property_id": 1,
+      "image_url": "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800",
+      "sort_order": 1
+    },
+    {
+      "id": 2,
+      "property_id": 1,
+      "image_url": "https://images.unsplash.com/photo-1628624747186-a941c476b7ef?w=800",
+      "sort_order": 2
+    },
+    {
+      "id": 3,
+      "property_id": 2,
+      "image_url": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800",
+      "sort_order": 1
+    },
+    {
+      "id": 4,
+      "property_id": 2,
+      "image_url": "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=800",
+      "sort_order": 2
+    },
+    {
+      "id": 5,
+      "property_id": 3,
+      "image_url": "https://images.unsplash.com/photo-1518005068251-37900150dfca?w=800",
+      "sort_order": 1
+    },
+    {
+      "id": 6,
+      "property_id": 4,
+      "image_url": "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800",
+      "sort_order": 1
+    },
+    {
+      "id": 7,
+      "property_id": 5,
+      "image_url": "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=800",
+      "sort_order": 1
+    },
+    {
+      "id": 8,
+      "property_id": 6,
+      "image_url": "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800",
+      "sort_order": 1
+    },
+    {
+      "id": 9,
+      "property_id": 7,
+      "image_url": "https://images.unsplash.com/photo-1524813686514-a57563d77965?w=800",
+      "sort_order": 1
+    },
+    {
+      "id": 10,
+      "property_id": 8,
+      "image_url": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800",
+      "sort_order": 1
+    }
+  ],
+  "propertyDocuments": [
+    {
+      "id": 1,
+      "property_id": 1,
+      "doc_name": "Выписка из ЕГРН",
+      "file_url": "/docs/egrn_1.pdf",
+      "uploaded_at": "2026-01-20T10:00:00"
+    },
+    {
+      "id": 2,
+      "property_id": 1,
+      "doc_name": "Постановление о включении в реестр",
+      "file_url": "/docs/post_1.pdf",
+      "uploaded_at": "2026-01-20T10:00:00"
+    },
+    {
+      "id": 3,
+      "property_id": 2,
+      "doc_name": "Выписка из ЕГРН",
+      "file_url": "/docs/egrn_2.pdf",
+      "uploaded_at": "2026-02-10T09:00:00"
+    },
+    {
+      "id": 4,
+      "property_id": 2,
+      "doc_name": "Технический паспорт",
+      "file_url": "/docs/techpass_2.pdf",
+      "uploaded_at": "2026-02-10T09:00:00"
+    },
+    {
+      "id": 5,
+      "property_id": 2,
+      "doc_name": "Типовой договор аренды",
+      "file_url": "/docs/rent_contract.pdf",
+      "uploaded_at": "2026-02-10T09:00:00"
+    },
+    {
+      "id": 6,
+      "property_id": 3,
+      "doc_name": "Выписка из ЕГРН",
+      "file_url": "/docs/egrn_3.pdf",
+      "uploaded_at": "2026-03-01T08:30:00"
+    },
+    {
+      "id": 7,
+      "property_id": 3,
+      "doc_name": "Типовой договор купли-продажи",
+      "file_url": "/docs/sale_contract.pdf",
+      "uploaded_at": "2026-03-01T08:30:00"
+    }
+  ],
+  "applications": [
+    {
+      "id": 1,
+      "number": "2026-0001",
+      "application_type": "rent",
+      "applicant_id": 3,
+      "property_id": 4,
+      "desired_term": 12,
+      "purpose": "Хранение сельскохозяйственной техники и инвентаря",
+      "status": "approved",
+      "reviewer_id": 2,
+      "review_date": "2026-04-05T10:00:00",
+      "rejection_reason": null,
+      "created_at": "2026-04-01T09:30:00"
+    },
+    {
+      "id": 2,
+      "number": "2026-0002",
+      "application_type": "purchase",
+      "applicant_id": 4,
+      "property_id": 5,
+      "desired_term": null,
+      "purpose": "Расширение сельскохозяйственного производства",
+      "payment_method": "full",
+      "status": "approved",
+      "reviewer_id": 1,
+      "review_date": "2026-05-10T14:00:00",
+      "rejection_reason": null,
+      "created_at": "2026-05-01T11:00:00"
+    },
+    {
+      "id": 3,
+      "number": "2026-0003",
+      "application_type": "rent",
+      "applicant_id": 3,
+      "property_id": 7,
+      "desired_term": 36,
+      "purpose": "Строительство торгового павильона",
+      "status": "in_review",
+      "reviewer_id": 2,
+      "review_date": null,
+      "rejection_reason": null,
+      "created_at": "2026-06-20T15:30:00"
+    },
+    {
+      "id": 4,
+      "number": "2026-0004",
+      "application_type": "purchase",
+      "applicant_id": 4,
+      "property_id": 3,
+      "desired_term": null,
+      "purpose": "Реконструкция под культурно-досуговый центр",
+      "payment_method": "installment",
+      "planned_date": "2026-08-01",
+      "status": "pending",
+      "reviewer_id": null,
+      "review_date": null,
+      "rejection_reason": null,
+      "created_at": "2026-06-28T10:00:00"
+    }
+  ],
+  "contracts": [
+    {
+      "id": 1,
+      "application_id": 1,
+      "property_id": 4,
+      "tenant_id": 3,
+      "contract_type": "rent",
+      "start_date": "2026-04-15",
+      "end_date": "2025-04-14",
+      "monthly_rent": 35000,
+      "sale_price": null,
+      "deposit_amount": 70000,
+      "status": "active",
+      "signed_at": "2026-04-10T11:00:00"
+    },
+    {
+      "id": 2,
+      "application_id": 2,
+      "property_id": 5,
+      "tenant_id": 4,
+      "contract_type": "sale",
+      "start_date": "2026-05-15",
+      "end_date": null,
+      "monthly_rent": null,
+      "sale_price": 5000000,
+      "deposit_amount": 500000,
+      "status": "completed",
+      "signed_at": "2026-05-15T14:30:00"
+    }
+  ],
+  "payments": [
+    {
+      "id": 1,
+      "contract_id": 1,
+      "payment_type": "deposit",
+      "period_month": null,
+      "amount": 70000,
+      "due_date": "2026-04-10",
+      "paid_date": "2026-04-10",
+      "status": "paid"
+    },
+    {
+      "id": 2,
+      "contract_id": 1,
+      "payment_type": "rent",
+      "period_month": "2026-04-01",
+      "amount": 35000,
+      "due_date": "2026-04-15",
+      "paid_date": "2026-04-15",
+      "status": "paid"
+    },
+    {
+      "id": 3,
+      "contract_id": 1,
+      "payment_type": "rent",
+      "period_month": "2026-05-01",
+      "amount": 35000,
+      "due_date": "2026-05-15",
+      "paid_date": "2026-05-14",
+      "status": "paid"
+    },
+    {
+      "id": 4,
+      "contract_id": 1,
+      "payment_type": "rent",
+      "period_month": "2026-06-01",
+      "amount": 35000,
+      "due_date": "2026-06-15",
+      "paid_date": "2026-06-15",
+      "status": "paid"
+    },
+    {
+      "id": 5,
+      "contract_id": 1,
+      "payment_type": "rent",
+      "period_month": "2026-07-01",
+      "amount": 35000,
+      "due_date": "2026-07-15",
+      "paid_date": null,
+      "status": "pending"
+    },
+    {
+      "id": 6,
+      "contract_id": 2,
+      "payment_type": "deposit",
+      "period_month": null,
+      "amount": 500000,
+      "due_date": "2026-05-10",
+      "paid_date": "2026-05-10",
+      "status": "paid"
+    },
+    {
+      "id": 7,
+      "contract_id": 2,
+      "payment_type": "purchase",
+      "period_month": null,
+      "amount": 4500000,
+      "due_date": "2026-05-15",
+      "paid_date": "2026-05-15",
+      "status": "paid"
+    }
+  ],
+  "news": [
+    {
+      "id": 1,
+      "title": "Объявлен аукцион по продаже земельного участка под коммерческую застройку",
+      "content": "Администрация с.п. Дубовый Умёт объявляет открытый аукцион по продаже земельного участка площадью 2500 кв.м., расположенного по адресу: ул. Центральная, участок 3. Начальная цена лота: 1 800 000 рублей. Аукцион состоится 15 июля 2026 года в 10:00. Подача заявок до 10 июля 2026 года.",
+      "author_id": 1,
+      "published_at": "2026-06-25T09:00:00"
+    },
+    {
+      "id": 2,
+      "title": "Итоги приватизации за первое полугодие 2026 года",
+      "content": "Подведены итоги работы по приватизации муниципального имущества за первое полугодие 2026 года. Всего реализовано 3 объекта недвижимости на общую сумму 12,5 млн рублей. Средства направлены в бюджет поселения на благоустройство территории и ремонт социальных объектов.",
+      "author_id": 1,
+      "published_at": "2026-06-20T14:00:00"
+    },
+    {
+      "id": 3,
+      "title": "Новый порядок заключения договоров купли-продажи муниципального имущества",
+      "content": "С 1 июля 2026 года вступает в силу новый регламент заключения договоров купли-продажи муниципального имущества. Теперь все заявки можно подавать через личный кабинет на сайте \"ДубНедвижимый\". Срок рассмотрения заявок сокращён до 10 рабочих дней.",
+      "author_id": 2,
+      "published_at": "2026-06-15T10:30:00"
+    },
+    {
+      "id": 4,
+      "title": "Снижена арендная плата для субъектов малого бизнеса",
+      "content": "В целях поддержки предпринимательства принято решение о снижении арендной платы за муниципальное имущество для субъектов малого и среднего бизнеса на 20%. Льгота действует до конца 2026 года.",
+      "author_id": 1,
+      "published_at": "2026-05-01T11:00:00"
+    }
+  ],
+  "auditLog": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "action": "Создание объекта",
+      "entity_type": "property",
+      "entity_id": 1,
+      "details_json": "{\"title\": \"Земельный участок под ИЖС\"}",
+      "created_at": "2026-01-20T10:00:00"
+    },
+    {
+      "id": 2,
+      "user_id": 2,
+      "action": "Одобрение заявки",
+      "entity_type": "application",
+      "entity_id": 1,
+      "details_json": "{\"status\": \"approved\"}",
+      "created_at": "2026-04-05T10:00:00"
+    },
+    {
+      "id": 3,
+      "user_id": 1,
+      "action": "Создание договора",
+      "entity_type": "contract",
+      "entity_id": 1,
+      "details_json": "{\"contract_type\": \"rent\"}",
+      "created_at": "2026-04-10T11:00:00"
+    },
+    {
+      "id": 4,
+      "user_id": 1,
+      "action": "Вход в систему",
+      "entity_type": "user",
+      "entity_id": 1,
+      "details_json": null,
+      "created_at": "2026-06-12T15:09:44"
+    },
+    {
+      "id": 5,
+      "user_id": 1,
+      "action": "Вход в систему",
+      "entity_type": "user",
+      "entity_id": 1,
+      "details_json": null,
+      "created_at": "2026-06-12T15:09:49"
+    },
+    {
+      "id": 6,
+      "user_id": 1,
+      "action": "Вход в систему",
+      "entity_type": "user",
+      "entity_id": 1,
+      "details_json": null,
+      "created_at": "2026-06-12T15:35:30"
+    }
+  ]
+}

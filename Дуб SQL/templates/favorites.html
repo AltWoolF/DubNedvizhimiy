@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% import 'components.html' as ui with context %}
+{% block content %}
+  <div class="min-h-screen bg-background pt-20 md:pt-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <h1 class="text-3xl md:text-4xl font-bold mb-3">Избранное</h1>
+      <p class="text-secondary mb-8">Сохранённые объекты недвижимости</p>
+      {% if properties %}
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {% for property in properties %}{{ ui.property_card(property, data, favorites) }}{% endfor %}
+        </div>
+      {% else %}
+        <div class="bg-white rounded-2xl p-12 text-center">
+          <h2 class="text-2xl font-bold mb-3">В избранном пока пусто</h2>
+          <p class="text-secondary mb-6">Добавляйте объекты из каталога, чтобы быстро вернуться к ним позже.</p>
+          <a href="{{ url_for("catalog") }}"
+             class="inline-block px-6 py-3 bg-olive text-white rounded-xl font-semibold">Открыть каталог</a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

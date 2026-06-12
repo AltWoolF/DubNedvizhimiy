@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% import 'components.html' as ui with context %}
+{% block content %}
+  <div class="min-h-screen bg-background pt-20 md:pt-24">
+    <div class="relative bg-gradient-to-br from-olive to-olive-dark text-white py-20 overflow-hidden">
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-10 left-10 w-40 h-40 border-2 border-white rounded-full"></div>
+        <div class="absolute bottom-10 right-10 w-60 h-60 border-2 border-white rounded-full"></div>
+      </div>
+      <div class="relative max-w-4xl mx-auto px-4 text-center">
+        {{ ui.icon('tree', 'w-20 h-20 mx-auto mb-6 opacity-80') }}
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">
+          Сельское поселение
+          <br>
+          Дубовый Умёт
+        </h1>
+        <p class="text-xl text-white/80 max-w-2xl mx-auto">Муниципальный район Волжский, Самарская область</p>
+      </div>
+    </div>
+    <section class="py-16 md:py-24 bg-white">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-3xl md:text-4xl font-bold text-dark mb-6">О нашем поселении</h2>
+            <div class="space-y-4 text-secondary leading-relaxed">
+              <p>Село Дубовый Умёт — одно из старейших поселений Самарской области, основанное в XVIII веке. Расположено в живописном месте на берегу реки Самара, в окружении дубовых лесов, которые и дали название селу.</p>
+              <p>Сегодня сельское поселение Дубовый Умёт — это современная территория с развитой инфраструктурой, сохраняющая традиции и культуру самарского края. Население составляет более 5000 человек.</p>
+              <p>Администрация поселения активно работает над цифровой трансформацией муниципальных услуг, делая их доступными и прозрачными для всех жителей.</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            {% for value,label in [('5 000+','Жителей'),('50+','Объектов недвижимости'),('250+','Лет истории'),('10 000 га','Площадь')] %}
+              <div class="bg-background rounded-2xl p-6 text-center hover:shadow-lg">
+                <div class="w-10 h-10 text-olive mx-auto mb-4">{{ ui.icon('building', 'w-10 h-10') }}</div>
+                <p class="text-2xl md:text-3xl font-bold text-dark mb-1">{{ value }}</p>
+                <p class="text-sm text-secondary">{{ label }}</p>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="py-16 md:py-24 bg-background">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-dark mb-4">Контактная информация</h2>
+          <p class="text-secondary max-w-2xl mx-auto">Администрация сельского поселения Дубовый Умёт</p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {% for icon,title,text in [('map','Адрес','446030, Самарская область, Волжский район, с. Дубовый Умёт, ул. Советская, д. 120'),('phone','Телефон','+7 (846) 992-81-12; +7 (846) 992-81-13'),('mail','Email','admin@dubovyumet.ru'),('clock','Режим работы','Пн-Чт: 8:00 – 17:00; Пт: 8:00 – 16:00; Обед: 12:00 – 13:00')] %}
+            <div class="bg-white rounded-2xl p-6 text-center hover:shadow-lg">
+              <div class="w-14 h-14 bg-olive/10 rounded-xl flex items-center justify-center mx-auto mb-4">{{ ui.icon(icon,'w-7 h-7 text-olive') }}</div>
+              <h3 class="font-semibold text-dark mb-2">{{ title }}</h3>
+              <p class="text-secondary text-sm">{{ text }}</p>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    <section class="py-16 md:py-24 bg-white">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="bg-background rounded-2xl overflow-hidden">
+          <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A8d8b3d9d0a4f1e2c3b5a6c7d8e9f0a1b&source=constructor"
+                  width="100%"
+                  height="400"
+                  frameborder="0"
+                  class="w-full"
+                  title="Карта"></iframe>
+        </div>
+      </div>
+    </section>
+    <section class="py-16 md:py-24 bg-background">
+      <div class="max-w-4xl mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-dark mb-4">Руководство</h2>
+        </div>
+        <div class="bg-white rounded-2xl p-8 shadow-sm">
+          <div class="flex flex-col md:flex-row items-center gap-8">
+            <div class="w-32 h-32 bg-olive/10 rounded-2xl flex items-center justify-center flex-shrink-0">{{ ui.icon('user', 'w-16 h-16 text-olive') }}</div>
+            <div class="text-center md:text-left">
+              <h3 class="text-xl font-bold text-dark mb-2">Глава сельского поселения</h3>
+              <p class="text-olive font-medium mb-4">Администрация с.п. Дубовый Умёт</p>
+              <p class="text-secondary">Приём граждан: вторник, четверг с 9:00 до 12:00</p>
+              <p class="text-secondary">Предварительная запись по телефону: +7 (846) 992-81-12</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock %}

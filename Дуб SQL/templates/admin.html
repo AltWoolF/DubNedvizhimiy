@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="min-h-screen bg-background pt-20 md:pt-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <h1 class="text-3xl md:text-4xl font-bold mb-6">Админ-панель</h1>
+      <div class="flex flex-wrap gap-2 mb-6">
+        {% for key,label in [('dashboard','Обзор'),('properties','Объекты'),('applications','Заявки'),('news','Новости'),('audit','Аудит')] %}<a href="{{ url_for('admin', tab=key) }}"
+   class="px-4 py-2 rounded-xl {{ 'bg-olive text-white' if tab==key else 'bg-white hover:bg-gray-50' }}">{{ label }}</a>{% endfor %}
+      </div>
+      {% if tab=='dashboard' %}
+        <div class="grid md:grid-cols-5 gap-4">
+          {% for key,label in [('users','Пользователи'),('properties','Объекты'),('applications','Заявки'),('contracts','Договоры'),('payments_pending','Ожидают оплаты')] %}
+            <div class="bg-white rounded-2xl p-5 shadow-sm">
+              <p class="text-3xl font-bold text-olive">{{ stats[key] }}</p>
+              <p class="text-secondary text-sm">{{ label }}</p>
+            </div>
+          {% endfor %}
+        </div>
+      {% elif tab=='properties' %}
+        <div class="grid lg:grid-cols-2 gap-6">
+          <form method="post" class="bg-white rounded-2xl p-6 shadow-sm space-y-3">
+            <input type="hidden" name="action" value="add_property">
+            <input type="hidden" name="tab" value="properties">
+            <h2 class="text-xl font-bold mb-3">Добавить объект</h2>
+            <input name="title"
+                   required
+                   placeholder="Название"
+                   class="w-full px-4 py-3 rounded-xl border">
+            <input name="address"
+                   required
+                   placeholder="Адрес"
+                   class="w-full px-4 py-3 rounded-xl border">
+            <div class="grid grid-cols-2 gap-3">
+              <select name="type" class="px-4 py-3 rounded-xl border">
+                {% for k,v in PROPERTY_TYPES.items() %}
+                  <option value="{{ k }}">{{ v }}</option>
+                {% endfor %}
+              </select>
+              <select name="status" class="px-4 py-3 rounded-xl border">
+                {% for k,v in STATUS_LABELS.items() %}
+                  <option value="{{ k }}">{{ v }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <input name="area"
+                     type="number"
+                     step="0.1"
+                     placeholder="Площадь"
+                     class="px-4 py-3 rounded-xl border">
+              <input name="cadastral_number"
+                     placeholder="Кадастровый №"
+                     class="px-4 py-3 rounded-xl border">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <input name="rent_price"
+                     type="number"
+                     placeholder="Аренда"
+                     class="px-4 py-3 rounded-xl border">
+              <input name="sale_price"
+                     type="number"
+                     placeholder="Продажа"
+                     class="px-4 py-3 rounded-xl border">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <input name="lat"
+                     type="number"
+                     step="0.000001"
+                     placeholder="Широта, например 53.124812"
+                     class="px-4 py-3 rounded-xl border">
+              <input name="lng"
+                     type="number"
+                     step="0.000001"
+                     placeholder="Долгота, например 50.571245"
+                     class="px-4 py-3 rounded-xl border">
+            </div>
+            <select name="condition" class="w-full px-4 py-3 rounded-xl border">
+              <option value="">Состояние не указано</option>
+              {% for k,v in CONDITION_LABELS.items() %}
+                <option value="{{ k }}">{{ v }}</option>
+              {% endfor %}
+            </select>
+            <select name="operation_type" class="w-full px-4 py-3 rounded-xl border">
+              <option value="rent">Аренда</option>
+              <option value="sale">Продажа</option>
+              <option value="both">Аренда и продажа</option>
+            </select>
+            <textarea name="description"
+                      placeholder="Описание"
+                      class="w-full px-4 py-3 rounded-xl border"></textarea>
+            <button class="px-5 py-3 bg-olive text-white rounded-xl font-semibold">Сохранить</button>
+          </form>
+          <div class="bg-white rounded-2xl p-6 shadow-sm overflow-auto">
+            <h2 class="text-xl font-bold mb-3">Реестр</h2>
+            <table class="w-full text-sm">
+              <tr class="text-left text-secondary">
+                <th>ID</th>
+                <th>Название</th>
+                <th>Статус</th>
+              </tr>
+              {% for p in data.properties %}
+                <tr class="border-t">
+                  <td class="py-2">{{ p.id }}</td>
+                  <td><a class="text-olive"
+   href="{{ url_for('property_detail', property_id=p.id) }}">{{ p.title }}</a></td>
+                  <td>{{ STATUS_LABELS[p.status] }}</td>
+                </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+      {% elif tab=='applications' %}
+        <div class="bg-white rounded-2xl p-6 shadow-sm space-y-3">
+          {% for a in data.applications %}
+            {% set p = get_property(data,a.property_id) %}{% set u = get_user(data,a.applicant_id) %}
+            <form method="post"
+                  class="border rounded-xl p-4 grid md:grid-cols-5 gap-3 items-center">
+              <input type="hidden" name="action" value="update_application">
+              <input type="hidden" name="tab" value="applications">
+              <input type="hidden" name="application_id" value="{{ a.id }}">
+              <div class="md:col-span-2">
+                <p class="font-semibold">№{{ a.number }} — {{ p.title if p else 'Объект удалён' }}</p>
+                <p class="text-sm text-secondary">{{ u.full_name if u else '—' }} • {{ format_date(a.created_at) }}</p>
+              </div>
+              <select name="status" class="px-3 py-2 rounded-xl border">
+                {% for k,v in APPLICATION_STATUS.items() %}
+                  <option value="{{ k }}" {% if a.status==k %}selected{% endif %}>{{ v }}</option>
+                {% endfor %}
+              </select>
+              <input name="rejection_reason"
+                     placeholder="Причина отказа"
+                     value="{{ a.rejection_reason or '' }}"
+                     class="px-3 py-2 rounded-xl border">
+              <button class="px-4 py-2 bg-olive text-white rounded-xl">Обновить</button>
+            </form>
+          {% endfor %}
+        </div>
+      {% elif tab=='news' %}
+        <div class="grid lg:grid-cols-2 gap-6">
+          <form method="post" class="bg-white rounded-2xl p-6 shadow-sm space-y-3">
+            <input type="hidden" name="action" value="add_news">
+            <input type="hidden" name="tab" value="news">
+            <h2 class="text-xl font-bold">Добавить новость</h2>
+            <input name="title"
+                   required
+                   placeholder="Заголовок"
+                   class="w-full px-4 py-3 rounded-xl border">
+            <textarea name="content"
+                      required
+                      rows="6"
+                      placeholder="Текст новости"
+                      class="w-full px-4 py-3 rounded-xl border"></textarea>
+            <button class="px-5 py-3 bg-olive text-white rounded-xl">Опубликовать</button>
+          </form>
+          <div class="bg-white rounded-2xl p-6 shadow-sm space-y-3">
+            {% for n in data.news %}
+              <div class="border-b pb-3">
+                <p class="font-semibold">{{ n.title }}</p>
+                <p class="text-sm text-secondary">{{ format_date(n.published_at) }}</p>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% elif tab=='audit' %}
+        <div class="bg-white rounded-2xl p-6 shadow-sm overflow-auto">
+          <table class="w-full text-sm">
+            <tr class="text-left text-secondary">
+              <th>ID</th>
+              <th>Действие</th>
+              <th>Сущность</th>
+              <th>Дата</th>
+            </tr>
+            {% for l in data.auditLog|reverse %}
+              <tr class="border-t">
+                <td class="py-2">{{ l.id }}</td>
+                <td>{{ l.action }}</td>
+                <td>{{ l.entity_type }} #{{ l.entity_id }}</td>
+                <td>{{ format_date(l.created_at, True) }}</td>
+              </tr>
+            {% endfor %}
+          </table>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

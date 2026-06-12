@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title or 'ДубНедвижимый' }} • с.п. Дубовый Умёт</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = { theme: { extend: { colors: { olive:'#6B7F3B','olive-dark':'#5A6B32',terracotta:'#C45B3E',background:'#F5F5F0',dark:'#2D2D2D',secondary:'#6B6B6B' } } } }
+    </script>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body class="bg-background text-dark antialiased">
+    {% import 'components.html' as ui with context %}
+    {% if request.endpoint not in ['login','register'] %}
+      {{ ui.header(current_user, favorites, request.path) }}
+    {% else %}
+      {{ ui.header(current_user, favorites, request.path) }}
+    {% endif %}
+    <main class="flex-1">
+      <div class="fixed top-24 right-4 z-[60] space-y-2 max-w-sm">
+        {% for category, message in get_flashed_messages(with_categories=True) %}
+          <div class="rounded-xl px-4 py-3 shadow-lg text-sm bg-white border-l-4 {% if category=='success' %}border-green-500{% elif category=='error' %}border-red-500{% elif category=='warning' %}border-yellow-500{% else %}border-olive{% endif %}">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% block content %}{% endblock %}
+    </main>
+    {% if request.endpoint not in ['login','register'] %}{{ ui.footer(current_year) }}{% endif %}
+    <script>
+    function toggleMobile(){document.getElementById('mobile-menu').classList.toggle('max-h-0');document.getElementById('mobile-menu').classList.toggle('max-h-96');document.getElementById('mobile-menu').classList.toggle('pb-4')}
+    setTimeout(()=>document.querySelectorAll('.fixed.top-24 .rounded-xl').forEach(el=>el.remove()), 4500)
+    </script>
+  </body>
+</html>

@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+{% import 'components.html' as ui with context %}
+{% block content %}
+  <div class="min-h-screen bg-background pt-20 md:pt-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <a href="{{ url_for("catalog") }}" class="text-olive hover:underline">← Вернуться в каталог</a>
+      <div class="grid lg:grid-cols-3 gap-8 mt-6">
+        <div class="lg:col-span-2 space-y-6">
+          <div class="bg-white rounded-2xl overflow-hidden shadow-sm"
+               id="property-gallery">
+            <div class="relative aspect-video bg-gray-200">
+              <img id="property-main-image"
+                   src="{{ images[0].image_url if images else 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200' }}"
+                   alt="{{ property.title }}"
+                   class="w-full h-full object-cover transition-opacity duration-200">
+              <div class="absolute top-4 left-4 flex gap-2">
+                {% if property.operation_type!='sale' and property.rent_price %}<span class="px-3 py-1 bg-olive text-white text-sm rounded-full">Аренда</span>{% endif %}
+                {% if property.operation_type!='rent' and property.sale_price %}<span class="px-3 py-1 bg-terracotta text-white text-sm rounded-full">Продажа</span>{% endif %}
+              </div>
+              <span class="absolute top-4 right-4 px-3 py-1 text-white rounded-full status-{{ property.status }}">{{ STATUS_LABELS[property.status] }}</span>
+              {% if images|length>1 %}
+                <button type="button"
+                        class="gallery-prev absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/45 text-white hover:bg-black/65 flex items-center justify-center text-2xl leading-none"
+                        aria-label="Предыдущее изображение">‹</button>
+                <button type="button"
+                        class="gallery-next absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/45 text-white hover:bg-black/65 flex items-center justify-center text-2xl leading-none"
+                        aria-label="Следующее изображение">›</button>
+              {% endif %}
+            </div>
+            {% if images|length>1 %}
+              <div class="grid grid-cols-4 md:grid-cols-6 gap-2 p-3 bg-white">
+                {% for img in images %}
+                  <button type="button"
+                          class="gallery-thumb h-24 rounded-xl overflow-hidden border-2 {{ 'border-olive' if loop.first else 'border-transparent' }} hover:border-olive focus:border-olive"
+                          data-index="{{ loop.index0 }}"
+                          data-image-url="{{ img.image_url }}"
+                          aria-label="Показать изображение {{ loop.index }}">
+                    <img src="{{ img.image_url }}"
+                         alt="{{ property.title }} — фото {{ loop.index }}"
+                         class="w-full h-full object-cover">
+                  </button>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+          <div class="bg-white rounded-2xl p-6 shadow-sm">
+            <p class="text-sm text-olive font-semibold uppercase mb-2">{{ PROPERTY_TYPES[property.type] }}</p>
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">{{ property.title }}</h1>
+            <div class="flex items-start gap-2 text-secondary mb-6">{{ ui.icon('map', 'w-5 h-5 mt-0.5') }}<span>{{ property.address }}</span></div>
+            <h2 class="text-xl font-bold mb-3">Описание</h2>
+            <p class="text-secondary leading-relaxed">{{ property.description or 'Описание отсутствует' }}</p>
+          </div>
+          <div class="bg-white rounded-2xl p-6 shadow-sm">
+            <div class="flex items-center justify-between gap-4 mb-4">
+              <h2 class="text-xl font-bold">Расположение на карте</h2>
+              <span class="text-sm text-secondary">Яндекс.Карты</span>
+            </div>
+            <div class="rounded-2xl overflow-hidden bg-background border border-gray-100">
+              <iframe src="{{ property_map_url }}"
+                      width="100%"
+                      height="360"
+                      frameborder="0"
+                      allowfullscreen="true"
+                      class="w-full"
+                      title="Карта расположения объекта {{ property.title }}">
+              </iframe>
+            </div>
+          </div>
+          <div class="bg-white rounded-2xl p-6 shadow-sm">
+            <h2 class="text-xl font-bold mb-5">Характеристики</h2>
+            <div class="grid md:grid-cols-2 gap-4">
+              {% for label,value in [('Кадастровый номер',property.cadastral_number),('Площадь',format_area(property.area)),('Состояние',CONDITION_LABELS.get(property.condition,'—') if property.condition else '—'),('Коммуникации',property.communications or '—'),('Дата создания',format_date(property.created_at)),('Обновлено',format_date(property.updated_at))] %}
+                <div class="border rounded-xl p-4">
+                  <p class="text-xs text-secondary mb-1">{{ label }}</p>
+                  <p class="font-semibold">{{ value }}</p>
+                </div>
+              {% endfor %}
+            </div>
+            {% if property.owner_name %}
+              <div class="mt-4 p-4 rounded-xl bg-gray-50">
+                <h3 class="font-bold mb-2">Правообладатель</h3>
+                <p>{{ property.owner_name }}</p>
+                <p class="text-sm text-secondary">Дата перехода права: {{ format_date(property.ownership_date) }}</p>
+                <p class="text-sm text-secondary">Основание: {{ property.ownership_basis }}</p>
+              </div>
+            {% endif %}
+          </div>
+          {% if documents %}
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+              <h2 class="text-xl font-bold mb-4">Документы объекта</h2>
+              <div class="space-y-2">
+                {% for doc in documents %}<a href="{{ doc.file_url }}"
+   class="flex items-center gap-3 p-3 rounded-xl hover:bg-background">{{ ui.icon('file', 'w-5 h-5 text-olive') }}<span>{{ doc.doc_name }}</span><span class="ml-auto text-xs text-secondary">{{ format_date(doc.uploaded_at) }}</span></a>{% endfor %}
+              </div>
+            </div>
+          {% endif %}
+        </div>
+        <aside class="space-y-6">
+          <div class="bg-white rounded-2xl p-6 shadow-sm sticky top-24">
+            <h2 class="text-xl font-bold mb-5">Стоимость</h2>
+            {% if property.rent_price and property.operation_type!='sale' %}
+              <div class="mb-4">
+                <p class="text-sm text-secondary">Аренда</p>
+                <p class="text-2xl font-bold text-olive">{{ format_price(property.rent_price) }}<span class="text-sm font-normal">/мес</span></p>
+              </div>
+            {% endif %}
+            {% if property.sale_price and property.operation_type!='rent' %}
+              <div class="mb-4">
+                <p class="text-sm text-secondary">Покупка</p>
+                <p class="text-2xl font-bold text-terracotta">{{ format_price(property.sale_price) }}</p>
+              </div>
+            {% endif %}
+            <form method="post"
+                  action="{{ url_for('toggle_favorite', property_id=property.id) }}"
+                  class="mb-3">
+              <button class="w-full px-5 py-3 rounded-xl border font-semibold {{ 'bg-terracotta text-white border-terracotta' if property.id in favorites else 'border-gray-200 hover:border-terracotta hover:text-terracotta' }}">{{ 'Убрать из избранного' if property.id in favorites else 'Добавить в избранное' }}</button>
+            </form>
+            {% if property.status in ['available','reserved'] %}
+              <a href="{{ url_for('apply', property_id=property.id) }}"
+                 class="block w-full px-5 py-3 bg-olive text-white rounded-xl text-center font-semibold hover:bg-olive-dark">Подать заявку</a>
+            {% else %}
+              <button disabled
+                      class="w-full px-5 py-3 bg-gray-200 text-gray-500 rounded-xl font-semibold">Заявки недоступны</button>
+            {% endif %}
+            {% if responsible %}
+              <div class="mt-6 pt-6 border-t">
+                <p class="text-sm text-secondary">Ответственный</p>
+                <p class="font-semibold">{{ responsible.full_name }}</p>
+                <p class="text-sm text-secondary">{{ responsible.email }}</p>
+                <p class="text-sm text-secondary">{{ responsible.phone }}</p>
+              </div>
+            {% endif %}
+          </div>
+        </aside>
+      </div>
+      {% if related %}
+        <section class="py-12">
+          <h2 class="text-2xl font-bold mb-6">Похожие объекты</h2>
+          <div class="grid md:grid-cols-3 gap-6">
+            {% for p in related %}{{ ui.property_card(p, data, favorites) }}{% endfor %}
+          </div>
+        </section>
+      {% endif %}
+    </div>
+  </div>
+  {% if images|length>1 %}
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const gallery = document.getElementById("property-gallery");
+        const mainImage = document.getElementById("property-main-image");
+        const thumbs = Array.from(document.querySelectorAll(".gallery-thumb"));
+        const prevButton = document.querySelector(".gallery-prev");
+        const nextButton = document.querySelector(".gallery-next");
+        let currentIndex = 0;
+
+        function showImage(index) {
+          if (!thumbs.length) {
+            return;
+          }
+
+          if (index < 0) {
+            index = thumbs.length - 1;
+          }
+
+          if (index >= thumbs.length) {
+            index = 0;
+          }
+
+          const thumb = thumbs[index];
+          const imageUrl = thumb.dataset.imageUrl;
+
+          currentIndex = index;
+          mainImage.style.opacity = "0";
+
+          window.setTimeout(function () {
+            mainImage.src = imageUrl;
+            mainImage.style.opacity = "1";
+          }, 120);
+
+          thumbs.forEach(function (item) {
+            item.classList.remove("border-olive");
+            item.classList.add("border-transparent");
+          });
+
+          thumb.classList.remove("border-transparent");
+          thumb.classList.add("border-olive");
+        }
+
+        thumbs.forEach(function (thumb, index) {
+          thumb.addEventListener("click", function () {
+            showImage(index);
+          });
+        });
+
+        if (prevButton) {
+          prevButton.addEventListener("click", function () {
+            showImage(currentIndex - 1);
+          });
+        }
+
+        if (nextButton) {
+          nextButton.addEventListener("click", function () {
+            showImage(currentIndex + 1);
+          });
+        }
+      });
+    </script>
+  {% endif %}
+{% endblock %}

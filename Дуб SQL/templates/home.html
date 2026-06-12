@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% import 'components.html' as ui with context %}
+{% block content %}
+  <section class="relative min-h-screen bg-gradient-to-br from-olive via-olive-dark to-dark text-white overflow-hidden pt-20 pb-20">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-20 left-10 w-72 h-72 border-2 border-white rounded-full"></div>
+      <div class="absolute bottom-20 right-10 w-96 h-96 border-2 border-white rounded-full"></div>
+    </div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 grid lg:grid-cols-2 gap-12 items-center">
+      <div class="animate-slide-up">
+        <p class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full text-sm mb-6">{{ ui.icon('building', 'w-4 h-4') }} Муниципальное имущество онлайн</p>
+        <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6 text-balance">ДубНедвижимый</h1>
+        <p class="text-xl md:text-2xl text-white/85 mb-4">Информационная система управления недвижимостью с.п. Дубовый Умёт</p>
+        <p class="text-white/70 max-w-xl mb-8">Каталог муниципальных объектов, подача заявок на аренду и покупку, новости приватизации и личный кабинет заявителя.</p>
+        <div class="flex flex-col sm:flex-row gap-4"><a href="{{ url_for("catalog") }}"
+   class="px-8 py-4 bg-white text-olive font-semibold rounded-xl hover:bg-gray-100 text-center shadow-xl">Перейти в каталог</a><a href="{{ url_for("about") }}"
+   class="px-8 py-4 bg-white/10 text-white font-semibold rounded-xl hover:bg-white/20 text-center border border-white/20">О поселении</a></div>
+      </div>
+      <div class="grid grid-cols-2 gap-4 animate-fade-in">
+        {% for value,label in [(stats.properties,'Объектов в реестре'),(stats.available,'Свободно'),(stats.applications,'Заявок'),(stats.contracts,'Договоров')] %}
+          <div class="bg-white/10 backdrop-blur rounded-2xl p-6 border border-white/10">
+            <p class="text-4xl font-bold">{{ value }}</p>
+            <p class="text-white/70 text-sm mt-2">{{ label }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="absolute bottom-0 left-0 right-0 leading-none text-background">
+      <svg class="block w-full h-20 md:h-28"
+           viewBox="0 0 1440 140"
+           preserveAspectRatio="none"
+           xmlns="http://www.w3.org/2000/svg"
+           aria-hidden="true">
+        <path fill="currentColor" d="M0,70 C160,130 300,130 480,75 C650,22 820,18 1010,70 C1190,118 1320,112 1440,62 L1440,140 L0,140 Z">
+        </path>
+      </svg>
+    </div>
+  </section>
+  <section class="py-16 md:py-24 bg-background">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-bold text-dark mb-3">Актуальные объекты</h2>
+          <p class="text-secondary">Свободные объекты для аренды или приобретения</p>
+        </div>
+        <a href="{{ url_for("catalog") }}"
+           class="text-olive font-semibold hover:underline">Смотреть все →</a>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for property in featured %}{{ ui.property_card(property, data, favorites) }}{% endfor %}
+      </div>
+    </div>
+  </section>
+  <section class="py-16 md:py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Как подать заявку</h2>
+        <p class="text-secondary">Процесс полностью перенесён в веб-интерфейс</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        {% for n,title,text in [(1,'Выберите объект','Используйте каталог, фильтры и подробную карточку объекта.'),(2,'Заполните форму','Укажите тип участия: аренда или покупка, срок и цель использования.'),(3,'Отслеживайте статус','В личном кабинете видны заявки, договоры и платежи.')] %}
+          <div class="bg-background rounded-2xl p-8">
+            <div class="w-12 h-12 bg-olive text-white rounded-xl flex items-center justify-center font-bold mb-5">{{ n }}</div>
+            <h3 class="text-xl font-bold mb-3">{{ title }}</h3>
+            <p class="text-secondary">{{ text }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endblock %}

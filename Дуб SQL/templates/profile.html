@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="min-h-screen bg-background pt-20 md:pt-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div class="bg-white rounded-2xl p-6 mb-8 shadow-sm">
+        <h1 class="text-3xl font-bold mb-2">Личный кабинет</h1>
+        <p class="text-secondary">{{ user.full_name }} • {{ ROLE_LABELS[user.role] }}</p>
+        <div class="mt-4 grid md:grid-cols-3 gap-4 text-sm">
+          <div>Email: <b>{{ user.email or '—' }}</b></div>
+          <div>Телефон: <b>{{ user.phone or '—' }}</b></div>
+          <div>Дата регистрации: <b>{{ format_date(user.created_at) }}</b></div>
+        </div>
+      </div>
+      <div class="grid lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 space-y-6">
+          <section class="bg-white rounded-2xl p-6 shadow-sm">
+            <h2 class="text-xl font-bold mb-4">Мои заявки</h2>
+            {% if applications %}
+              <div class="space-y-3">
+                {% for a in applications %}
+                  {% set p = get_property(data,a.property_id) %}
+                  <div class="border rounded-xl p-4">
+                    <div class="flex justify-between gap-4">
+                      <div>
+                        <p class="font-semibold">№{{ a.number }} — {{ 'Аренда' if a.application_type=='rent' else 'Покупка' }}</p>
+                        <a class="text-olive hover:underline"
+                           href="{{ url_for('property_detail', property_id=a.property_id) }}">{{ p.title if p else 'Объект удалён' }}</a>
+                        <p class="text-sm text-secondary">{{ format_date(a.created_at, True) }}</p>
+                      </div>
+                      <span class="h-fit px-3 py-1 rounded-full text-xs bg-background">{{ APPLICATION_STATUS[a.status] }}</span>
+                    </div>
+                    {% if a.purpose %}<p class="mt-2 text-sm text-secondary">{{ a.purpose }}</p>{% endif %}
+                    {% if a.rejection_reason %}<p class="mt-2 text-sm text-red-600">Причина: {{ a.rejection_reason }}</p>{% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <p class="text-secondary">Заявок пока нет.</p>
+            {% endif %}
+          </section>
+          <section class="bg-white rounded-2xl p-6 shadow-sm">
+            <h2 class="text-xl font-bold mb-4">Договоры</h2>
+            {% if contracts %}
+              <div class="space-y-3">
+                {% for c in contracts %}
+                  {% set p = get_property(data,c.property_id) %}
+                  <div class="border rounded-xl p-4">
+                    <p class="font-semibold">{{ 'Договор аренды' if c.contract_type=='rent' else 'Договор купли-продажи' }} №{{ c.id }}</p>
+                    <p class="text-olive">{{ p.title if p else 'Объект удалён' }}</p>
+                    <p class="text-sm text-secondary">Статус: {{ c.status }} • Подписан: {{ format_date(c.signed_at) }}</p>
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <p class="text-secondary">Договоров пока нет.</p>
+            {% endif %}
+          </section>
+        </div>
+        <aside class="bg-white rounded-2xl p-6 shadow-sm h-fit">
+          <h2 class="text-xl font-bold mb-4">Платежи</h2>
+          {% if payments %}
+            <div class="space-y-3">
+              {% for p in payments %}
+                <div class="border rounded-xl p-3">
+                  <div class="flex justify-between"><span>{{ p.payment_type }}</span><b>{{ format_price(p.amount) }}</b></div>
+                  <p class="text-xs text-secondary">Срок: {{ format_date(p.due_date) }} • {{ p.status }}</p>
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <p class="text-secondary">Платежей нет.</p>
+          {% endif %}
+        </aside>
+      </div>
+    </div>
+  </div>
+{% endblock %}

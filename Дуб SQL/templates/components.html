@@ -1,0 +1,221 @@
+{% macro icon(name, cls='w-5 h-5') -%}
+  {% set paths = {
+    "building": "<path d=\"M3 21h18M5 21V5a2 2 0 0 1 2-2h7v18M14 9h5a2 2 0 0 1 2 2v10M8 7h2M8 11h2M8 15h2M17 13h1M17 17h1\" />",
+    "map": "<path d=\"M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z\" /><circle cx=\"12\" cy=\"10\" r=\"3\" />",
+    "heart": "<path d=\"M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z\" />",
+    "user": "<path d=\"M20 21a8 8 0 0 0-16 0\" /><circle cx=\"12\" cy=\"7\" r=\"4\" />",
+    "logout": "<path d=\"M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4\" /><path d=\"M16 17l5-5-5-5\" /><path d=\"M21 12H9\" />",
+    "settings": "<path d=\"M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5Z\" /><path d=\"M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1A2 2 0 1 1 4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1A2 2 0 1 1 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3h.1A1.7 1.7 0 0 0 10 3.1V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1A2 2 0 1 1 19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9v.1A1.7 1.7 0 0 0 21 10h.1a2 2 0 1 1 0 4H21a1.7 1.7 0 0 0-1.6 1Z\" />",
+    "tag": "<path d=\"M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z\" /><circle cx=\"7.5\" cy=\"7.5\" r=\".5\" />",
+    "max": "<path d=\"M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3\" />",
+    "phone": "<path d=\"M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2.1Z\" />",
+    "mail": "<path d=\"M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z\" /><path d=\"m22 6-10 7L2 6\" />",
+    "clock": "<circle cx=\"12\" cy=\"12\" r=\"10\" /><path d=\"M12 6v6l4 2\" />",
+    "file": "<path d=\"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z\" /><path d=\"M14 2v6h6\" /><path d=\"M16 13H8M16 17H8M10 9H8\" />",
+    "tree": "<path d=\"m17 14 3 3h-6l2 4H8l2-4H4l3-3H5l4-4H7l5-7 5 7h-2l4 4Z\" />"
+  } %}
+  <svg class="{{ cls }}"
+       xmlns="http://www.w3.org/2000/svg"
+       fill="none"
+       viewBox="0 0 24 24"
+       stroke="currentColor"
+       stroke-width="2"
+       stroke-linecap="round"
+       stroke-linejoin="round">
+    {{ paths.get(name, paths['building']) |safe }}
+  </svg>
+{%- endmacro %}
+{% macro header(current_user, favorites, path) -%}
+  <header class="fixed top-0 left-0 right-0 bg-white shadow-md z-50 transition-shadow duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 md:h-20">
+        <a href="{{ url_for("index") }}" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 md:w-12 md:h-12 bg-olive rounded-lg flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">{{ icon('building', 'w-6 h-6 md:w-7 md:h-7 text-white') }}</div>
+          <div class="hidden sm:block">
+            <h1 class="text-lg md:text-xl font-bold text-olive leading-tight">ДубНедвижимый</h1>
+            <p class="text-xs text-gray-500 leading-tight">с.п. Дубовый Умёт</p>
+          </div>
+        </a>
+        <nav class="hidden md:flex items-center gap-8">
+          {% for href,label in [('/catalog','Каталог'),('/news','Новости'),('/about','О поселении')] %}
+            <a href="{{ href }}"
+               class="relative text-sm font-medium py-2 {{ 'text-olive' if path==href else 'text-gray-600 hover:text-olive' }}">{{ label }}
+              {% if path==href %}
+                <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-olive rounded-full animate-scale-in"></span>
+              {% endif %}
+            </a>
+          {% endfor %}
+        </nav>
+        <div class="flex items-center gap-3">
+          <a href="{{ url_for("favorites_page") }}"
+             class="relative p-2 rounded-lg text-gray-600 hover:text-terracotta hover:bg-red-50"
+             title="Избранное">{{ icon('heart','w-5 h-5 ' + ('fill-terracotta text-terracotta' if favorites|length>0 else '') ) }}
+            {% if favorites|length>0 %}<span class="absolute -top-1 -right-1 w-5 h-5 bg-terracotta text-white text-xs rounded-full flex items-center justify-center animate-bounce-in">{{ favorites|length }}</span>{% endif %}
+          </a>
+          {% if current_user %}
+            <div class="hidden md:flex items-center gap-2">
+              {% if current_user.role != 'user' %}<a href="{{ url_for("admin") }}"
+   class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-olive hover:bg-olive/10 rounded-lg">{{ icon('settings', 'w-4 h-4') }}<span>Админ-панель</span></a>{% endif %}
+              <a href="{{ url_for("profile") }}"
+                 class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg">{{ icon('user', 'w-4 h-4') }}<span class="max-w-32 truncate">{{ current_user.full_name }}</span></a>
+              <a href="{{ url_for("logout") }}"
+                 class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-terracotta hover:bg-red-50 rounded-lg">{{ icon('logout', 'w-4 h-4') }}<span>Выход</span></a>
+            </div>
+          {% else %}
+            <a href="{{ url_for("login") }}"
+               class="hidden md:flex items-center gap-2 px-5 py-2.5 bg-olive text-white text-sm font-medium rounded-lg hover:bg-olive-dark transform hover:scale-105 shadow-md hover:shadow-lg">{{ icon('user', 'w-4 h-4') }}<span>Личный кабинет</span></a>
+          {% endif %}
+          <button onclick="toggleMobile()"
+                  class="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100">☰</button>
+        </div>
+      </div>
+      <div id="mobile-menu"
+           class="md:hidden overflow-hidden transition-all duration-300 ease-in-out max-h-0">
+        <nav class="flex flex-col gap-2 pt-2 border-t border-gray-100">
+          {% for href,label in [('/catalog','Каталог'),('/news','Новости'),('/about','О поселении')] %}<a href="{{ href }}"
+   class="px-4 py-3 rounded-lg text-sm font-medium {{ 'bg-olive/10 text-olive' if path==href else 'text-gray-600 hover:bg-gray-50' }}">{{ label }}</a>{% endfor %}
+          <div class="h-px bg-gray-100 my-2"></div>
+          {% if current_user %}
+            {% if current_user.role != 'user' %}<a href="{{ url_for("admin") }}"
+   class="px-4 py-3 rounded-lg text-sm font-medium text-olive hover:bg-olive/10">Админ-панель</a>{% endif %}
+            <a href="{{ url_for("profile") }}"
+               class="px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">{{ current_user.full_name }}</a>
+            <a href="{{ url_for("logout") }}"
+               class="px-4 py-3 rounded-lg text-sm font-medium text-terracotta hover:bg-red-50">Выход</a>
+          {% else %}
+            <a href="{{ url_for("login") }}"
+               class="flex items-center justify-center mx-4 py-3 bg-olive text-white text-sm font-medium rounded-lg hover:bg-olive-dark">Личный кабинет</a>
+          {% endif %}
+        </nav>
+      </div>
+    </div>
+  </header>
+{%- endmacro %}
+{% macro property_card(property, data, favorites) -%}
+  {% set imgs = property_images(data, property.id) %}{% set main = (imgs[0].image_url if imgs else 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800') %}
+  <div class="group block bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden transform hover:-translate-y-1 relative">
+    <a href="{{ url_for('property_detail', property_id=property.id) }}"
+       class="block">
+      <div class="relative aspect-[4/3] overflow-hidden">
+        <img src="{{ main }}"
+             alt="{{ property.title }}"
+             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+        <div class="absolute top-3 left-3 flex flex-wrap gap-2">
+          {% if property.operation_type!='sale' and property.rent_price %}<span class="px-3 py-1 bg-olive text-white text-xs font-medium rounded-full flex items-center gap-1 shadow-lg">{{ icon('tag', 'w-3 h-3') }}Аренда</span>{% endif %}
+          {% if property.operation_type!='rent' and property.sale_price %}<span class="px-3 py-1 bg-terracotta text-white text-xs font-medium rounded-full flex items-center gap-1 shadow-lg">{{ icon('tag', 'w-3 h-3') }}Продажа</span>{% endif %}
+        </div>
+        <div class="absolute top-3 right-3"><span class="px-3 py-1 text-white text-xs font-medium rounded-full shadow-lg status-{{ property.status }}">{{ STATUS_LABELS[property.status] }}</span></div>
+        {% if property.status=='private_ownership' and property.owner_name %}
+          <div class="absolute bottom-3 left-3 right-14 px-3 py-2 bg-gray-800/90 text-white text-xs rounded-lg">
+            <p class="font-medium">Частная собственность</p>
+            <p class="text-gray-300 truncate">{{ property.owner_name }}</p>
+          </div>
+        {% endif %}
+      </div>
+      <div class="p-4 md:p-5 space-y-3">
+        <p class="text-xs text-olive font-medium uppercase tracking-wide">{{ PROPERTY_TYPES[property.type] }}</p>
+        <h3 class="text-lg font-semibold text-dark line-clamp-2 group-hover:text-olive">{{ property.title }}</h3>
+        <div class="flex items-start gap-2 text-gray-500">
+          {{ icon('map', 'w-4 h-4 mt-0.5 flex-shrink-0') }}
+          <p class="text-sm line-clamp-2">{{ property.address }}</p>
+        </div>
+        {% if property.area %}
+          <div class="flex items-center gap-2 text-gray-500">
+            {{ icon('max', 'w-4 h-4') }}
+            <p class="text-sm">{{ format_area(property.area) }}</p>
+          </div>
+        {% endif %}
+        <div class="pt-3 border-t border-gray-100 space-y-2 text-center">
+          {% if property.rent_price and property.operation_type!='sale' %}
+            <div>
+              <span class="block text-xs text-gray-500 mb-1">Аренда:</span>
+              <span class="block text-olive font-bold text-lg md:text-xl">
+                {{ format_price(property.rent_price) }}<span class="text-xs font-normal">/мес</span>
+              </span>
+            </div>
+          {% endif %}
+          {% if property.sale_price and property.operation_type!='rent' %}
+            <div>
+              <span class="block text-xs text-gray-500 mb-1">Покупка:</span>
+              <span class="block text-terracotta font-bold text-lg md:text-xl">{{ format_price(property.sale_price) }}</span>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </a>
+    <form method="post"
+          action="{{ url_for('toggle_favorite', property_id=property.id) }}"
+          class="absolute bottom-3 right-3">
+      <button class="w-10 h-10 rounded-full flex items-center justify-center shadow-lg {{ 'bg-terracotta text-white' if property.id in favorites else 'bg-white/90 text-gray-600 hover:bg-terracotta hover:text-white' }}">{{ icon('heart','w-5 h-5 ' + ('fill-current' if property.id in favorites else '') ) }}</button>
+    </form>
+  </div>
+{%- endmacro %}
+{% macro footer(current_year) -%}
+  <footer class="bg-dark text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+        <div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-olive rounded-lg flex items-center justify-center">{{ icon('building', 'w-6 h-6 text-white') }}</div>
+            <h3 class="text-lg font-bold">ДубНедвижимый</h3>
+          </div>
+          <p class="text-gray-400 text-sm leading-relaxed">Информационная система управления муниципальным имуществом сельского поселения Дубовый Умёт муниципального района Волжский Самарской области.</p>
+          <p class="text-gray-500 text-xs">© {{ current_year }} Администрация с.п. Дубовый Умёт</p>
+        </div>
+        <div class="space-y-4">
+          <h4 class="text-lg font-semibold text-olive">Контакты</h4>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3 text-gray-400">
+              {{ icon('map', 'w-5 h-5 mt-0.5 text-olive') }}<span class="text-sm">446030, Самарская область,
+              <br>
+              Волжский район, с. Дубовый Умёт,
+              <br>
+            ул. Советская, д. 120</span>
+          </li>
+          <li><a href="tel:+78469928112"
+   class="flex items-center gap-3 text-gray-400 hover:text-white group">{{ icon('phone', 'w-5 h-5 text-olive') }}<span class="text-sm">+7 (846) 992-81-12</span></a></li>
+          <li><a href="mailto:admin@dubovyumet.ru"
+   class="flex items-center gap-3 text-gray-400 hover:text-white group">{{ icon('mail', 'w-5 h-5 text-olive') }}<span class="text-sm">admin@dubovyumet.ru</span></a></li>
+          <li class="flex items-start gap-3 text-gray-400">
+            {{ icon('clock', 'w-5 h-5 mt-0.5 text-olive') }}<span class="text-sm">Пн-Чт: 8:00 – 17:00
+            <br>
+            Пт: 8:00 – 16:00
+            <br>
+          Обед: 12:00 – 13:00</span>
+        </li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <h4 class="text-lg font-semibold text-olive">Карта сайта</h4>
+      <ul class="space-y-2">
+        {% for href,label in [('/','Главная'),('/catalog','Каталог объектов'),('/news','Новости'),('/about','О поселении'),('/favorites','Избранное'),('/login','Личный кабинет')] %}
+          <li><a href="{{ href }}"
+   class="text-sm text-gray-400 hover:text-white hover:pl-2 transition-all duration-300">{{ label }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <h4 class="text-lg font-semibold text-olive">Документы</h4>
+      <ul class="space-y-2">
+        {% for label in ['Положение о реестре муниципального имущества','Регламент приватизации','Типовой договор аренды','Типовой договор купли-продажи','Порядок проведения аукционов'] %}
+          <li><a href="#"
+   class="flex items-center gap-2 text-sm text-gray-400 hover:text-white group">{{ icon('file', 'w-4 h-4 text-olive flex-shrink-0') }}<span class="group-hover:underline">{{ label }}</span></a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="border-t border-gray-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-500">
+      <div class="flex items-center gap-4"><a href="https://volzhskiy.samregion.ru/"
+   target="_blank"
+   class="hover:text-gray-300">Волжский район ↗</a><a href="https://www.samregion.ru/"
+   target="_blank"
+   class="hover:text-gray-300">Самарская область ↗</a></div>
+    </div>
+  </div>
+</div>
+</footer>
+{%- endmacro %}
